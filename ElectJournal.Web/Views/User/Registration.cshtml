@@ -1,0 +1,71 @@
+﻿@model UserViewModel;
+@{
+    ViewData["Title"] = "Registration";
+}
+<h1>Регистрация</h1>
+
+<form asp-antiforgery="true" method="post" name="Reg">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="RoleId" />
+    <input type="hidden" asp-for="GroupId" />
+    <label>Учитель </label><input type="checkbox" id="Teacher" onchange="teach" checked />
+    <label> Ученик/студент </label><input type="checkbox" Id="Student" onchange="teach" /><br />
+    <label>Администратор </label><input type="checkbox" id="Admin" onchange="teach" />
+    <label>Менеджер </label><input type="checkbox" id="Men" onchange="teach" /><br />
+    <label>Логин </label> <input asp-for="Login" id="login" /><br />
+    <label>Пароль </label> <input type="password" asp-for="Password" /><br />
+    <label>Имя </label> <input asp-for="Name" /><br />
+    <label>Фамилия </label> <input asp-for="LastName" /><br />
+    <label>Отчество </label> <input asp-for="MiddleName" /><br /><br />
+    <p style="visibility:hidden" id="error">Вы ввели некорректные данные/пропустили поле</p>
+    <button type="submit" asp-action="Add" id="send" onclick="show()">Регистрация</button>
+
+    <script>
+        function show() {
+            var p = document.getElementsByTagName('p');
+            var log = document.querySelector('#login');
+            if (log.nodeValue === '') { //log[0].style.visibility === "hidden"
+                p[0].style.visibility = 'visible'
+            } else {
+                p[0].style.visibility = 'hidden'
+            }
+            //if (log.length === "") {
+            //    document.getElementById("error").removeAttribute("hidden");
+            //    }
+        }
+    </script>
+
+
+
+
+    <script>
+        // teacher = document.getElementById("Teacher");
+        //student = document.getElementById("Student");
+        var n = document.querySelectorAll('[type="checkbox"]'),
+            l = document.querySelectorAll('[type="checkbox"]:checked');
+        function teach() {
+            for (var j = 0; j < n.length; j++)
+                if (l.length >= 1) {
+                    n[j].disabled = true;
+                    for (var i = 0; i < l.length; i++)
+                        l[i].disabled = false;
+                } else if (l.length < 1) {
+                    n[j].disabled = false;
+                }
+        }
+
+        //if (teacher.checked) {
+        //    student.checked = false
+        //}
+        //else if (student.checked){
+        //    teacher.checked = false;
+        //}
+
+
+        teach();
+    </script>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
+</form>

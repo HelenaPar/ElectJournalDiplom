@@ -1,4 +1,5 @@
-﻿using ElectJournal.Web.Models;
+﻿using ElectJournal.Infrastrusture.Data.Repository;
+using ElectJournal.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,6 +17,10 @@ namespace ElectJournal.Web.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+        }
+        public IActionResult Registration()
+        {
+            return View();
         }
 
         public IActionResult Index()

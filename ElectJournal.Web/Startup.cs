@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ElectJournal.Core.Services;
+using ElectJournal.Web.Services;
 
 namespace ElectJournal.Web
 {
@@ -30,6 +32,8 @@ namespace ElectJournal.Web
             services.AddDbContext<JournalDbContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("Journal")));
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserViewModelService, UserViewModelService>();
             services.AddControllersWithViews();
         }
 
