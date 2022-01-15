@@ -18,9 +18,9 @@ namespace ElectJournal.Web.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string roleName)
         {
-            return View();
+            return View(roleName);
         }
 
         public IActionResult Privacy()

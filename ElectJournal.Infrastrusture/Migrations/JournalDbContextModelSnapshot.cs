@@ -194,7 +194,7 @@ namespace ElectJournal.Infrastrusture.Migrations
 
             modelBuilder.Entity("ElectJournal.Core.Entuties.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -229,6 +229,12 @@ namespace ElectJournal.Infrastrusture.Migrations
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nchar(128)")
+                        .IsFixedLength(true);
 
                     b.HasKey("Id");
 

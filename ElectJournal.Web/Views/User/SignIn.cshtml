@@ -1,0 +1,27 @@
+﻿@model SignInViewModel;
+<br />
+@{
+    ViewData["Title"] = "Sign in";
+}
+
+<form class="block" method="post" asp-antiforgery="true" name="Log" asp-controller="User">
+    <h2>Вход</h2><hr /><br />
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-floating mb-3">
+        <input asp-for="Login" class="form-control" id="floatingInput" placeholder="Логин"><br />
+        <span asp-validation-for="Login"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="password" asp-for="Password" class="form-control" id="floatingInput" placeholder="Пароль"><br />
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Авторизация</button>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+}

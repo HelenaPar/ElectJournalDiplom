@@ -1,0 +1,90 @@
+﻿@model UserViewModel;
+<br />
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<form class="block" method="post" asp-antiforgery="true" name="Reg" asp-action="Registration" asp-controller="User">
+    <input type="hidden" asp-for="Id" />
+    <h1><b>Регистрация</b></h1>
+    <hr id="mine" /><br />
+
+    <div class="form-check">
+        <input asp-for="RoleId" value="2" class="form-check-input" type="radio" id="flexRadioDefault1" checked>
+        <label class="form-check-label" for="flexRadioDefault1">
+            <b>
+                Учитель
+            </b>
+        </label>
+    </div>
+    <div class="form-check">
+        <input asp-for="RoleId" value="3" class="form-check-input" type="radio" id="flexRadioDefault2">
+        <label class="form-check-label" for="flexRadioDefault2">
+            <b>
+                Ученик/студент
+            </b>
+        </label>
+    </div>
+
+    @*<div class="form-check">
+        <input asp-for="RoleId" value="1" class="form-check-input" type="radio" id="flexRadioDefault3">
+        <label class="form-check-label" for="flexRadioDefault3">
+            <b>
+                Ни один из перечисленных
+            </b>
+        </label>
+    </div>*@
+
+    <div style="visibility:hidden" class="input-group mb-3" id="selectgr">
+        <label class="input-group-text" for="inputGroupSelect01">Группы</label>
+        <select asp-for="GroupId" class="form-select" id="inputGroupSelect01" >
+            <option value="" selected>Выберите группу...</option>
+            @foreach(var item in Model.GroupsList)
+             {
+                <option value="@item.Value">@item.Text</option>
+             }
+        </select>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input asp-for="Login" class="form-control" id="floatingInput" placeholder="Логин"><br />
+        <span asp-validation-for="Login"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="password" asp-for="Password" class="form-control" id="floatingInput" placeholder="Пароль"><br />
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="password" asp-for="ConfirmPassword" class="form-control" id="floatingInput" placeholder="Подтвердите пароль"><br />
+        <span asp-validation-for="ConfirmPassword"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input asp-for="LastName" class="form-control" id="floatingInput" placeholder="Фамилия"><br />
+        <span asp-validation-for="LastName"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input asp-for="Name" class="form-control" id="floatingInput" placeholder="Имя"><br />
+        <span asp-validation-for="Name"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input asp-for="MiddleName" class="form-control" id="floatingInput" placeholder="Отчество"><br />
+        <span asp-validation-for="MiddleName"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Регистрация</button>
+    <label>У вас уже есть аккаунт? <a asp-action="SignIn" asp-controller="User">Войти</a></label>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/user/group-select.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+}
+
+

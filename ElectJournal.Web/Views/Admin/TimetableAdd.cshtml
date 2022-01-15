@@ -1,0 +1,92 @@
+﻿@model TimetableViewModel;
+
+@{
+    ViewData["Title"] = "Add timetable";
+}
+
+<form class="block" asp-antiforgery="true" asp-action="TimetableAdd">
+    <h2><b>Добавление нового урока в расписание</b></h2>
+    <hr id="mine" /><br />
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="input-group mb-3" id="selectgr">
+        <label class="input-group-text" for="inputGroupSelect01">Группы</label>
+        <select asp-for="GroupId" class="form-select" id="inputGroupSelect01">
+            <option value="" selected>Выберите группу...</option>
+            @foreach (var item in Model.GroupsList)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="input-group mb-3" id="selectgr">
+        <label class="input-group-text" for="inputGroupSelect01">Предметы</label>
+        <select asp-for="SubjectId" class="form-select" id="inputGroupSelect01">
+            <option value="" selected>Выберите предмет...</option>
+            @foreach (var item in Model.SubjectList)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="input-group mb-3" id="selectgr">
+        <label class="input-group-text" for="inputGroupSelect01">Преподаватели</label>
+        <select asp-for="UserId" class="form-select" id="inputGroupSelect01">
+            <option value="" selected>Выберите преподавателя...</option>
+            @foreach (var item in Model.TeachersList)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="date" asp-for="BeginDate" class="form-control" id="dateInput" placeholder="Дата начала недели"><br />
+        <span asp-validation-for="BeginDate"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="date" asp-for="EndDate" class="form-control" id="dateInput1" placeholder="Дата конца недели"><br />
+        <span asp-validation-for="EndDate"></span>
+    </div>
+
+    <div class="input-group mb-3" id="selectgr">
+        <label class="input-group-text" for="inputGroupSelect01">День недели для данного урока</label>
+        <select asp-for="DayOfWeek" class="form-select" id="inputGroupSelect01">
+            <option value="" selected>Выберите день...</option>
+            <option value="1">Понедельник</option>
+            <option value="2">Вторник</option>
+            <option value="3">Среда</option>
+            <option value="4">Четверг</option>
+            <option value="5">Пятница</option>
+            <option value="6">Суббота</option>
+        </select>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="time" asp-for="StartTime" class="form-control" id="floatingInput" placeholder="Время начала урока"><br />
+        <span asp-validation-for="StartTime"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Добавить</button>
+</form>
+@* _________________________________________________________________________________________ *@
+<form class="block" asp-action="_TimetablePartial" method="get">
+    <h2>Посмотреть расписание</h2>
+    <hr id="mine" /><br />
+    <button type="submit" class="btn btn-primary">Посмотреть</button>
+    @*asp-route-day="@Model.DayOfWeek" asp-route-begin-date="@Model.BeginDate" asp-route-end-date="@Model.EndDate" asp-route-group-id="@Model.GroupId" *@
+</form>
+
+
+
+
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+        <script src="~/js/Date.js" asp-append-version="true"></script>
+        <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+}

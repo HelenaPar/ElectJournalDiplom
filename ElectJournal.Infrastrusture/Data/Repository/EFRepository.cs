@@ -23,24 +23,36 @@ namespace ElectJournal.Infrastrusture.Data.Repository
             dbContext.SaveChanges();
             dbContext.Entry(entity).State = EntityState.Detached;
             return entity;
+
         }
 
         public void Delete(TEntity entity)
         {
-            dbContext.Set<TEntity>().Remove(entity);
+            //dbContext.Set<TEntity>().Remove(entity);
+            dbContext.Entry(entity).State = EntityState.Deleted;
+            dbContext.SaveChanges();
+        }
+
+        public void Delete(int id) //самодельный
+        {
+            var entity = dbContext.Set<TEntity>().Find(id);
+            dbContext.Entry(entity).State = EntityState.Deleted;
             dbContext.SaveChanges();
         }
 
         public TEntity Get(int id)
         {
             var entity = dbContext.Set<TEntity>().Find(id);
-            dbContext.Entry(entity).State = EntityState.Detached;
+            if (entity != null)
+            {
+                dbContext.Entry(entity).State = EntityState.Detached;
+            }
             return entity;
         }
 
-        public IList<TEntity> Get(ISpecification<TEntity> specification)
+        public TEntity Get(ISpecification<TEntity> specification)
         {
-            return specification.Apply(dbContext.Set<TEntity>()).AsNoTracking().ToList();
+            return ApplySpecification(dbContext.Set<TEntity>(), specification).FirstOrDefault();
         }
 
         public IList<TEntity> List()
@@ -50,7 +62,7 @@ namespace ElectJournal.Infrastrusture.Data.Repository
 
         public IList<TEntity> List(ISpecification<TEntity> specification)
         {
-            return specification.Apply(dbContext.Set<TEntity>()).AsNoTracking().ToList();
+            return ApplySpecification(dbContext.Set<TEntity>(), specification).ToList();
         }
 
         public void Update(TEntity entity)
@@ -58,6 +70,55 @@ namespace ElectJournal.Infrastrusture.Data.Repository
             dbContext.Entry(entity).State = EntityState.Modified;
             //dbContext.Set<TEntity>().Update(entity);
             dbContext.SaveChanges();
+        }
+
+            /*var saved = false;
+            while (!saved)
+            {
+                try
+                {
+                    // Attempt to save changes to the database
+                    dbContext.SaveChanges();
+                    saved = true;
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    foreach (var entry in ex.Entries)
+                    {
+                        if (entry.Entity is TEntity)
+                        {
+                            var proposedValues = entry.CurrentValues;
+                            var databaseValues = entry.GetDatabaseValues();
+
+                            foreach (var property in proposedValues.Properties)
+                            {
+                                var proposedValue = proposedValues[property];
+                                var databaseValue = databaseValues[property];
+                            }
+
+                            entry.OriginalValues.SetValues(databaseValues);
+                        }
+                        else
+                        {
+                            throw new NotSupportedException(
+                                "Don't know how to handle concurrency conflicts for "
+                                + entry.Metadata.Name);
+                        }
+                    }
+                }
+            }*/
+        
+
+        private IQueryable<TEntity> ApplySpecification(IQueryable<TEntity> source, ISpecification<TEntity> specification)
+        {
+            var result = specification.Apply(source);
+
+            foreach (var include in specification.Includes)
+            {
+                result = result.Include(include);
+            }
+
+            return result.AsNoTracking();
         }
     }
 }

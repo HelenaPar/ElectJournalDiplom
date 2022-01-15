@@ -1,0 +1,29 @@
+﻿@using System.Security.Claims
+
+<ul >
+@if (User.HasClaim(c => c.Type == ClaimTypes.NameIdentifier))
+{
+    <li class="nav-item">
+        <a class="menu" asp-controller="User" asp-action="Registration">@User.Identity.Name</a>
+    </li>
+    <li class="nav-item">
+        <a class="menu" asp-controller="User" asp-action="Logout">Выйти</a>
+           @*<form class="menu" asp-controller="User" asp-action="Logout">
+               <button type="submit" class="btn btn-primary">Выйти</button>
+        </form>*@
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="menu" asp-controller="User" asp-action="Registration">Регистрация</a>
+    </li>
+    <li class="nav-item">
+        <a class="menu" asp-controller="User" asp-action="SignIn">Вход</a>
+    </li>
+}
+</ul>
+
+@section Scripts {
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+}

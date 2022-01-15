@@ -5,11 +5,11 @@ namespace ElectJournal.Core.Entuties
 {
     public class Lesson
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public DateTime Date { get; set; }
         public string Homework { get; set; }
         public string Theme { get; set; }
-        public DateTime StartTime { get; set; }
+        public TimeSpan StartTime { get; set; }
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
         public int TeacherId { get; set; }

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ElectJournal.Web.Models.TimetableViewModel>
+
+@{
+    ViewData["Title"] = "Timetable";
+}
+
+
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.SubjectName)
+            </th>
+            <th>
+                Действия
+            </th>
+            <th>
+
+            </th>
+        </tr>
+        @foreach (var item in Model)
+         {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.SubjectName)
+                </td>
+                <td>
+                    <button type="submit" asp-route-id="@item.Id" action="Subject">Удалить</button>
+                </td>
+                @*<td>
+                    @Html.ActionLink("Добавить", "SubjectsAdd")
+                </td>*@
+                <td>
+                    @Html.ActionLink("Изменить", "TimetableUpdate", new { id = item.Id })
+                </td>
+            </tr>
+         }
+    </table>
+ }
+
+
+
+<style>
+    .table td, .table th {
+        background-color: aliceblue;
+        border-top: 1px solid #000;
+    }
+
+    a.table {
+        color: darkblue;
+    }
+
+    table a {
+        color: darkblue;
+    }
+</style>
