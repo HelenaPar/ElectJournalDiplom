@@ -1,0 +1,84 @@
+﻿@model IEnumerable<ElectJournal.Web.Models.LessonsViewModel>
+
+@{
+    ViewData["Title"] = "Lessons";
+}
+
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <th style="display:none;">
+                @Html.DisplayNameFor(Model => Model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.LessonDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.SubjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.GroupName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Theme)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Homework)
+            </th>
+            <th>
+                Действия
+            </th>
+            <th>
+
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="display:none;">
+                    @Html.DisplayFor(model => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.LessonDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.SubjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.GroupName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Theme)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Homework)
+                </td>
+                <td>
+                    @Html.ActionLink("Поставить оценки", "MarksAdd", new { groupId = item.GroupId, lessonId = item.Id, teacherId = item.TeacherId })
+                </td>
+                <td>
+                    @Html.ActionLink("Изменить данные урока", "UpdateStartLesson", new { id = item.Id })
+                </td>
+                <td>
+                    <button type="submit" asp-controller="Teacher" asp-action="Lessons" asp-route-id="@item.Id">Удалить</button>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/user/group-select.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+}

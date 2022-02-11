@@ -11,20 +11,40 @@ namespace ElectJournal.Core.Services
 {
     public class MarkService : IMarkService
     {
-        private readonly IRepository<Mark> markRepository;
+        private readonly IRepository<Mark> MarkRepository;
 
         public MarkService(IRepository<Mark> markRepository)
         {
-            this.markRepository = markRepository;
+            this.MarkRepository = markRepository;
         }
-        public object Get()
+        public Mark Get(int id)
         {
-            throw new NotImplementedException();
+            return MarkRepository.Get(id);
         }
 
-        public IEnumerable<Mark> List(int GroupId)
+        public IEnumerable<Mark> List(int userId)
         {
-            return markRepository.List(new MarksFilterSpecification(GroupId));
+            return MarkRepository.List(new MarksSpecification(userId));
+        }
+
+        public IEnumerable<Mark> Search(int groupId, int subjectId, int teacherId)
+        {
+            return MarkRepository.List(new MarksForTeacherSpecification(groupId, subjectId, teacherId));
+        }
+
+        public void Delete(int id)
+        {
+            MarkRepository.Delete(id);
+        }
+
+        public Mark Add(Mark mark)
+        {
+            return MarkRepository.Add(mark);
+        }
+
+        public IEnumerable<Mark> Filter(int userId, DateTime beginDate, DateTime endDate, int subjectId)
+        {
+            return MarkRepository.List(new MarksForStudSpecification(userId, subjectId, beginDate, endDate));
         }
     }
 }

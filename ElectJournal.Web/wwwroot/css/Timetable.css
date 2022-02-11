@@ -1,0 +1,23 @@
+﻿hr {
+    border: none;
+    background-color: black;
+    color: steelblue;
+    height: 2.5px;
+    width: 100%;
+    margin: auto;
+}
+
+table {
+    background-color: lightgray;
+    text-align: center;
+}
+
+
+.table td, .table th {
+    background-color: lightgray;
+    border-top: 1px solid #000;
+}
+
+span {
+    color: darkblue;
+}

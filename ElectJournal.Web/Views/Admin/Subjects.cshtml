@@ -15,7 +15,7 @@
                 @Html.DisplayNameFor(Model => Model.Name)
             </th>
             <th>
-                 Действия
+                Действия
             </th>
             <th>
 
@@ -36,9 +36,6 @@
                 <td>
                     <button type="submit" asp-route-id="@item.Id" action="Subject">Удалить</button>
                 </td>
-              @*<td>
-                    @Html.ActionLink("Добавить", "SubjectsAdd")
-                </td>*@
                 <td>
                     @Html.ActionLink("Изменить", "SubjectsUpdate", new { id = item.Id })
                 </td>
@@ -48,17 +45,9 @@
 }
 
 
-<style>
-    .table td, .table th {
-        background-color: aliceblue;
-        border-top: 1px solid #000;
-    }
-
-    a.table {
-        color: darkblue;
-    }
-
-     table a{
-        color: darkblue;
-    }
-</style>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Date2.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+}

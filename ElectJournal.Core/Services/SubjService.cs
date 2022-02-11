@@ -10,26 +10,26 @@ namespace ElectJournal.Core.Services
 {
     public class SubjService : ISubjService
     {
-        private readonly IRepository<Subject> subjectRepository;
+        private readonly IRepository<Subject> SubjectRepository;
 
         public SubjService(IRepository<Subject> subjectRepository)
         {
-            this.subjectRepository = subjectRepository;
+            this.SubjectRepository = subjectRepository;
         }
-        public int? Add(Subject subject)
+        public int Add(Subject subject)
         {
-            subjectRepository.Add(subject);
+            SubjectRepository.Add(subject);
             return subject.Id;
         }
 
         public void Delete(int id)
         {
-            subjectRepository.Delete(id);
+            SubjectRepository.Delete(id);
         }
 
         public Subject Get(int id)
         {
-            var subj = subjectRepository.Get(id);
+            var subj = SubjectRepository.Get(id);
             return subj;
         }
     }

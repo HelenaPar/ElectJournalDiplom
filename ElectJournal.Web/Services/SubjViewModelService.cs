@@ -24,7 +24,7 @@ namespace ElectJournal.Web.Services
         {
             return repository.List().Select(ConvertToViewModel);
         }
-        public int? Add(SubjectViewModel subjectViewModel)
+        public int Add(SubjectViewModel subjectViewModel)
         {
             return subjService.Add(ConvertToModel(subjectViewModel));
         }
@@ -49,7 +49,7 @@ namespace ElectJournal.Web.Services
         {
             return new Subject
             {
-                Id = subjectViewModel.Id,
+                Id = subjectViewModel.Id.HasValue ? subjectViewModel.Id.Value : 0,
                 Name = subjectViewModel.Name
             };
         }

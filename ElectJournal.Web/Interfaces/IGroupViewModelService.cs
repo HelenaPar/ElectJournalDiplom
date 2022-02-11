@@ -8,7 +8,7 @@ namespace ElectJournal.Web.Interfaces
 {
     public interface IGroupViewModelService
     {
-        int? Add(GroupViewModel groupViewModel);
+        int Add(GroupViewModel groupViewModel);
         GroupViewModel Get(int id);
         void Delete(int id);
         IEnumerable<GroupViewModel> List();

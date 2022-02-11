@@ -27,14 +27,14 @@ namespace ElectJournal.Web.Services
             this.passwordHasher = passwordHasher;
         }
 
-        public int? Add(UserViewModel userViewModel)
+        public int Add(UserViewModel userViewModel)
         {
             return userService.Add(Convert(userViewModel));
         }
 
-        public object Get()
+        public UserViewModel Get(UserViewModel baseModel = null)
         {
-            var viewModel = new UserViewModel();
+            var viewModel = baseModel != null ? baseModel : new UserViewModel();
             viewModel.GroupsList = groupRepository.List().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() }); 
 
             return viewModel;
@@ -46,24 +46,12 @@ namespace ElectJournal.Web.Services
             return user != null ? ConvertToViewModel(user) : null;
         }
 
-        /*public bool CheckLogin(UserViewModel userViewModel)
-        {
-            var viewModel = new UserViewModel();
-            viewModel.LoginsList = userRepository.List()
-                .Where(c => c.Text == userViewModel.Login);
-            if (viewModel.LoginsList == Empty)
-            {
-
-            }
-            return true;
-        }*/
-
         private User Convert(UserViewModel userViewModel)
         {
             var salt = passwordHasher.GenerateSalt();
             return new User
             {
-                Id = userViewModel.Id,
+                Id = userViewModel.Id.HasValue ? userViewModel.Id.Value : 0,
                 Password = passwordHasher.Hash(userViewModel.Password, salt),
                 Salt = salt,
                 Login = userViewModel.Login,

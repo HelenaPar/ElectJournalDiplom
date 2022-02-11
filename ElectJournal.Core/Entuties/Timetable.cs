@@ -4,7 +4,7 @@ namespace ElectJournal.Core.Entuties
 {
     public class Timetable
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public int GroupId { get; set; }
         public Group Group { get; set; }
         public int SubjectId { get; set; }

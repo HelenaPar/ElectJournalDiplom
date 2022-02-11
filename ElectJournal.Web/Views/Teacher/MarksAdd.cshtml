@@ -1,0 +1,40 @@
+﻿@model MarksViewModel
+
+@{
+    ViewData["Title"] = "Marks";
+}
+
+<form class="block" asp-antiforgery="true" asp-controller="Teacher" asp-action="MarksAdd" method="post">
+    <h2><b>Посмотреть оценки..</b></h2>
+    <hr id="mine" /><br />
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="LessonId" value="@Model.LessonId" />
+    <input type="hidden" asp-for="TeacherId" value="@Model.TeacherId" />
+
+    <div class="input-group mb-3" id="selectgr">
+        <label class="input-group-text" for="inputGroupSelect01">Студенты</label>
+        <select asp-for="StudentId" class="form-select" id="inputGroupSelect01">
+            <option value="" selected>Выберите студента...</option>
+            @foreach (var item in Model.StudentsList)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="number" asp-for="Value" />
+        <span asp-validation-for="Value"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Добавить оценку</button>
+</form>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/user/group-select.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+}

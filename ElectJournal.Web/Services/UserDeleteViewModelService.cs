@@ -12,10 +12,10 @@ namespace ElectJournal.Web.Services
 {
     public class UserDeleteViewModelService : IUserDeleteViewModelService
     {
-        private readonly IUserDeleteService userDelete;
+        private readonly IUserService userDelete;
         private readonly IRepository<User> repository;
 
-        public UserDeleteViewModelService(IUserDeleteService userDelete, IRepository<User> repository)
+        public UserDeleteViewModelService(IUserService userDelete, IRepository<User> repository)
         {
             this.userDelete = userDelete;
             this.repository = repository;
@@ -28,9 +28,6 @@ namespace ElectJournal.Web.Services
 
         public IEnumerable<AdminDelUserViewModel> List()
         {
-            //var viewModel = new AdminViewModel();
-            //viewModel.Users = repository.List();
-            //return Convert(viewModel);
             return repository.List().Select(ConvertToViewModel);
         }
 
@@ -38,7 +35,7 @@ namespace ElectJournal.Web.Services
         {
             return new User
             {
-                Id = adminViewModel.Id,
+                Id = adminViewModel.Id.HasValue ? adminViewModel.Id.Value : 0,
                 Login = adminViewModel.Login,
                 MiddleName = adminViewModel.MiddleName,
                 LastName = adminViewModel.LastName,
@@ -59,9 +56,5 @@ namespace ElectJournal.Web.Services
                 RoleId = user.RoleId
             };
         }
-        //private IEnumerable<AdminViewModel> ConvertToEn(AdminViewModel adminView)
-        //{
-        //   var viewModels = IEnumerable<AdminViewModel>;
-        //}
     }
 }

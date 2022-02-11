@@ -16,7 +16,6 @@ namespace ElectJournal.Core.Interfaces
         TEntity Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
-        //__________________________
         void Delete(int id);
     }
 }

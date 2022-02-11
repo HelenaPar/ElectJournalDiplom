@@ -9,7 +9,7 @@ namespace ElectJournal.Core.Interfaces
 {
     public interface ISubjService
     {
-        int? Add(Subject subject);
+        int Add(Subject subject);
         Subject Get(int id);
         void Delete(int id);
     }

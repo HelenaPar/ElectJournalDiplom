@@ -36,7 +36,5 @@ namespace ElectJournal.Web.Models
         public string MiddleName { get; set; }
         public IEnumerable<SelectListItem> GroupsList { get; set; }
         public ICollection<string> LoginsList { get; set; }
-        //public ICollection<string> Groups { get; set; }
-        //public ICollection<string> Role { get; set; }
     }
 }

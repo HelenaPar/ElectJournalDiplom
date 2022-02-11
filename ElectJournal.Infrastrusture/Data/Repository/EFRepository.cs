@@ -28,16 +28,18 @@ namespace ElectJournal.Infrastrusture.Data.Repository
 
         public void Delete(TEntity entity)
         {
-            //dbContext.Set<TEntity>().Remove(entity);
             dbContext.Entry(entity).State = EntityState.Deleted;
             dbContext.SaveChanges();
         }
 
-        public void Delete(int id) //самодельный
+        public void Delete(int id)
         {
             var entity = dbContext.Set<TEntity>().Find(id);
-            dbContext.Entry(entity).State = EntityState.Deleted;
-            dbContext.SaveChanges();
+            if (entity != null)
+            {
+                dbContext.Remove(entity);
+                dbContext.SaveChanges();
+            }
         }
 
         public TEntity Get(int id)
@@ -68,47 +70,9 @@ namespace ElectJournal.Infrastrusture.Data.Repository
         public void Update(TEntity entity)
         {
             dbContext.Entry(entity).State = EntityState.Modified;
-            //dbContext.Set<TEntity>().Update(entity);
             dbContext.SaveChanges();
         }
-
-            /*var saved = false;
-            while (!saved)
-            {
-                try
-                {
-                    // Attempt to save changes to the database
-                    dbContext.SaveChanges();
-                    saved = true;
-                }
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    foreach (var entry in ex.Entries)
-                    {
-                        if (entry.Entity is TEntity)
-                        {
-                            var proposedValues = entry.CurrentValues;
-                            var databaseValues = entry.GetDatabaseValues();
-
-                            foreach (var property in proposedValues.Properties)
-                            {
-                                var proposedValue = proposedValues[property];
-                                var databaseValue = databaseValues[property];
-                            }
-
-                            entry.OriginalValues.SetValues(databaseValues);
-                        }
-                        else
-                        {
-                            throw new NotSupportedException(
-                                "Don't know how to handle concurrency conflicts for "
-                                + entry.Metadata.Name);
-                        }
-                    }
-                }
-            }*/
         
-
         private IQueryable<TEntity> ApplySpecification(IQueryable<TEntity> source, ISpecification<TEntity> specification)
         {
             var result = specification.Apply(source);

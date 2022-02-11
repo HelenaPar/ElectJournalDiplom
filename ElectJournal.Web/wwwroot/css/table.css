@@ -1,0 +1,14 @@
+﻿.table td, .table th
+{
+    background-color: aliceblue;
+    border-top: 1px solid #000;
+}
+
+a.table {
+    color: darkblue;
+}
+
+table a {
+    color: darkblue;
+}
+

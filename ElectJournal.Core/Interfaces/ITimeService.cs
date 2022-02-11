@@ -1,5 +1,4 @@
-﻿using ElectJournal.Core.Entuties;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace ElectJournal.Core.Interfaces
 {
-    public interface IUserDeleteService
+    public interface ITimeService
     {
-        void Delete(int id);
-        //IList<User> List();
+        DateTime GetNow();
+        DateTime BeginDate();
+        DateTime EndDate();
     }
 }

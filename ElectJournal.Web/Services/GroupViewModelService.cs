@@ -20,7 +20,7 @@ namespace ElectJournal.Web.Services
             this.repository = repository;
         }
 
-        public int? Add(GroupViewModel groupViewModel)
+        public int Add(GroupViewModel groupViewModel)
         {
             return groupService.Add(ConvertToModel(groupViewModel));
         }
@@ -50,7 +50,7 @@ namespace ElectJournal.Web.Services
         {
             return new Group
             {
-                Id = groupViewModel.Id,
+                Id = groupViewModel.Id.HasValue ? groupViewModel.Id.Value : 0,
                 Name = groupViewModel.Name
             };
         }

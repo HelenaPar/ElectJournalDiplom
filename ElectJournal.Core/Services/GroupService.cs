@@ -10,27 +10,27 @@ namespace ElectJournal.Core.Services
 {
     public class GroupService : IGroupService
     {
-        private readonly IRepository<Group> groupRepository;
+        private readonly IRepository<Group> GroupRepository;
 
         public GroupService(IRepository<Group> groupRepository)
         {
-            this.groupRepository = groupRepository;
+            this.GroupRepository = groupRepository;
         }
 
-        public int? Add(Group group)
+        public int Add(Group group)
         {
-            var id = groupRepository.Add(group);
+            var id = GroupRepository.Add(group);
             return group.Id;
         }
 
         public void Delete(int id)
         {
-            groupRepository.Delete(id);
+            GroupRepository.Delete(id);
         }
 
         public Group Get(int id)
         {
-            var group = groupRepository.Get(id);
+            var group = GroupRepository.Get(id);
             return group;
         }
     }

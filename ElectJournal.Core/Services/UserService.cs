@@ -11,27 +11,32 @@ namespace ElectJournal.Core.Services
 {
     public class UserService : IUserService
     {
-        private readonly IRepository<User> userRepository;
+        private readonly IRepository<User> UserRepository;
 
         public UserService(IRepository<User> userRepository)
         {
-            this.userRepository = userRepository;
+            this.UserRepository = userRepository;
         }
-        public int? Add(User user)
+        public int Add(User user)
         {
-            userRepository.Add(user);
+            UserRepository.Add(user);
             return user.Id;
         }
 
         public User Get(int id)
         {
-            var user = userRepository.Get(id);
+            var user = UserRepository.Get(id);
             return user;
         }
 
         public User Get(string login)
         {
-            return userRepository.Get(new UserByLoginSpecification(login));
+            return UserRepository.Get(new UserByLoginSpecification(login));
+        }
+
+        public void Delete(int id)
+        {
+            UserRepository.Delete(id);
         }
     }
 }

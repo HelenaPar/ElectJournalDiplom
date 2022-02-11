@@ -12,7 +12,5 @@ namespace ElectJournal.Web.Models
         public int? Id { get; set; }
         [DisplayName("Название предмета")]
         public string Name { get; set; }
-        //public ICollection<Timetable> Timetable { get; set; }
-        //public ICollection<Lesson> Lessons { get; set; }
     }
 }

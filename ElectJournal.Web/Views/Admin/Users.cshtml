@@ -54,6 +54,8 @@
             <td>
                 Администратор
             </td>
+            <td>
+            </td>
         }
         else if (item.RoleId == 2)
         {
@@ -78,13 +80,9 @@
     </table>
 }
 
-    <style>
-        .table td, .table th {
-            background-color: aliceblue;
-            border-top: 1px solid #000;
-        }
-
-        a.table {
-            color: darkblue;
-        }
-    </style>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Date2.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+}

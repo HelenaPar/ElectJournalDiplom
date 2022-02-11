@@ -2,6 +2,7 @@
 using ElectJournal.Web.Interfaces;
 using ElectJournal.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,51 +12,59 @@ namespace ElectJournal.Web.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly IUserDeleteViewModelService userViewModelService;
-        private readonly IUserDeleteService userService;
-        private readonly ISubjService subjService;
-        private readonly ITimetableService timetableService;
-        private readonly IGroupService groupService;
-        private readonly ISubjViewModelService subjViewModelService;
-        private readonly IGroupViewModelService groupViewModelService;
-        private readonly ITimetableViewModelService timetableViewModelService;
-        public AdminController(IUserDeleteViewModelService userViewModelService, IUserDeleteService userService, ISubjService subjService, ISubjViewModelService subjViewModelService, IGroupService groupService, IGroupViewModelService groupViewModelService, ITimetableService timetableService, ITimetableViewModelService timetableViewModelService)
+        private readonly IUserDeleteViewModelService UserViewModelService;
+        private readonly ISubjService SubjService;
+        private readonly ITimetableService TimetableService;
+        private readonly IGroupService GroupService;
+        private readonly ISubjViewModelService SubjViewModelService;
+        private readonly IGroupViewModelService GroupViewModelService;
+        private readonly ITimetableViewModelService TimetableViewModelService;
+        private readonly ILogger<AdminController> Logger;
+        public AdminController(ILogger<AdminController> logger, IUserDeleteViewModelService userViewModelService, ISubjService subjService, ISubjViewModelService subjViewModelService, IGroupService groupService, IGroupViewModelService groupViewModelService, ITimetableService timetableService, ITimetableViewModelService timetableViewModelService)
         {
-            this.userService = userService;
-            this.userViewModelService = userViewModelService;
-            this.subjService = subjService;
-            this.subjViewModelService = subjViewModelService;
-            this.groupService = groupService;
-            this.groupViewModelService = groupViewModelService;
-            this.timetableViewModelService = timetableViewModelService;
-            this.timetableService = timetableService;
+            this.UserViewModelService = userViewModelService;
+            this.SubjService = subjService;
+            this.SubjViewModelService = subjViewModelService;
+            this.GroupService = groupService;
+            this.GroupViewModelService = groupViewModelService;
+            this.TimetableViewModelService = timetableViewModelService;
+            this.TimetableService = timetableService;
+            this.Logger = logger;
         }
 
         [HttpGet]
         public IActionResult Users()
         {
-            var models = userViewModelService.List();
+            var models = UserViewModelService.List();
             return View(models);
         }
 
         [HttpPost]
-        public IActionResult Users(int id) //AdminViewModel adminViewModel
+        public IActionResult Users(int id)
         {
-            userViewModelService.Delete(id);
-            return RedirectToAction(nameof(Users));
+            try
+            {
+                UserViewModelService.Delete(id);
+                return RedirectToAction(nameof(Users));
+            }
+            catch(Exception ex)
+            {
+                Logger.LogError(ex, "Нельзя удалить данного пользователя!");
+                return RedirectToAction("Error", "Home", new { });
+            }
         }
 
         [HttpGet]
         public IActionResult Subjects()
         {
-            var models = subjViewModelService.List();
+            var models = SubjViewModelService.List();
             return View(models);
         }
 
         [HttpPost]
-        public IActionResult Subjects(int id) //AdminViewModel adminViewModel
+        public IActionResult Subjects(int id)
         {
-            subjViewModelService.Delete(id);
+            SubjViewModelService.Delete(id);
             return RedirectToAction(nameof(Subjects));
         }
 
@@ -72,53 +81,49 @@ namespace ElectJournal.Web.Controllers
             {
                 return View();
             }
-            var id = subjViewModelService.Add(subjectViewModel);
+            var id = SubjViewModelService.Add(subjectViewModel);
             return RedirectToAction(nameof(Subjects));
         }
 
         [HttpGet]
         public IActionResult SubjectsUpdate(int id)
         {
-            var s = subjViewModelService.Get(id);
+            var s = SubjViewModelService.Get(id);
             return View(s);
         }
 
         [HttpPost]
         public IActionResult SubjectsUpdate(SubjectViewModel subject)
         {
-            subjViewModelService.Update(subject);
+            SubjViewModelService.Update(subject);
             return RedirectToAction(nameof(Subjects));
         }
 
         [HttpGet]
         public IActionResult Groups()
         {
-            var models = groupViewModelService.List();
+            var models = GroupViewModelService.List();
             return View(models);
         }
 
         [HttpPost]
         public IActionResult Groups(int id)
         {
-            groupViewModelService.Delete(id);
+            GroupViewModelService.Delete(id);
             return RedirectToAction(nameof(Groups));
         }
 
         [HttpGet]
         public IActionResult GroupsUpdate(int id)
         {
-            var s = groupViewModelService.Get(id);
+            var s = GroupViewModelService.Get(id);
             return View(s);
         }
 
         [HttpPost]
         public IActionResult GroupsUpdate(GroupViewModel group)
         {
-            //if (!ModelState.IsValid)
-            //{
-                
-            //}
-            groupViewModelService.Update(group);
+            GroupViewModelService.Update(group);
             return RedirectToAction(nameof(Groups));
         }
 
@@ -135,14 +140,14 @@ namespace ElectJournal.Web.Controllers
             {
                 return View();
             }
-            var id = groupViewModelService.Add(group);
+            var id = GroupViewModelService.Add(group);
             return RedirectToAction(nameof(Groups));
         }
 
         [HttpGet]
         public IActionResult TimetableAdd()
         {
-            var selests = timetableViewModelService.Get();
+            var selests = TimetableViewModelService.Get();
             return View(selests);
         }
 
@@ -153,44 +158,55 @@ namespace ElectJournal.Web.Controllers
             {
                 return View();
             }
-            timetableViewModelService.Add(timetable);
+            TimetableViewModelService.Add(timetable);
             return RedirectToAction(nameof(TimetableAdd));
         }
 
         [HttpGet]
         public IActionResult _TimetablePartial()
         {
-            var selests = timetableViewModelService.Get();
+            var selests = TimetableViewModelService.Get();
             return View(selests);
         }
 
-        //[HttpGet]
-        //public IActionResult TimetableList()
-        //{
-        //    return View();
-        //}
-
-        [HttpGet]//post
-        public IActionResult TimetableList(DayOfWeek day, DateTime begin, DateTime end, int GroupId)
+        [HttpGet]
+        public IActionResult TimetableList(DayOfWeek dayOfWeek, int groupId, DateTime beginDate, DateTime endDate)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
-            var selests = timetableViewModelService.Search(day, GroupId, begin, end);
+            var selests = TimetableViewModelService.Search(dayOfWeek, groupId, beginDate, endDate);
             return View(selests);
         }
 
-        //[HttpPost]
-        //public IActionResult TimetableList(TimetableViewModel timetable)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View();
-        //    }
-        //    timetableViewModelService.Add(timetable);
-        //    return RedirectToAction(nameof(TimetableAdd));
-        //}
+        [HttpPost]
+        public IActionResult TimetableList(int id)
+        {
+            TimetableViewModelService.Delete(id);
+            return Redirect(HttpContext.Request.Headers["Referer"]);
+        }
 
+        [HttpGet]
+        public IActionResult TimetableUpdate(int id)
+        {
+            var item = TimetableViewModelService.Get(id);
+            return View(item);
+        }
+
+        [HttpPost]
+        public IActionResult TimetableUpdate(TimetableViewModel timetableViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var DayOfWeek = timetableViewModel.DayOfWeek;
+            var BeginDate = timetableViewModel.BeginDate;
+            var EndDate = timetableViewModel.EndDate;
+            var GroupId = timetableViewModel.GroupId;
+            TimetableViewModelService.Update(timetableViewModel);
+            return RedirectToAction(nameof(TimetableList), new { DayOfWeek, GroupId, BeginDate, EndDate });
+        }
     }
 }

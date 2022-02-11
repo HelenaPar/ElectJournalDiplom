@@ -1,0 +1,28 @@
+﻿@model LessonsViewModel
+
+@{
+    ViewData["Title"] = "Timetable info";
+}
+
+@if (Model.IsTimetableBased)
+{
+    <form class="block">
+        <h2>Информация о уроке, прошедшем по дате: @Model.LessonDate.Date</h2>
+        <hr class="mine" />
+        <p>Тема: @Model.Theme</p>
+        <p>Домашняя работа: @Model.Homework</p>
+    </form>
+}
+else
+{
+    <form class="block">
+        <h2>Информации по данному уроку нет</h2>
+    </form>
+}
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/user/group-select.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+}

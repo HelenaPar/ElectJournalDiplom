@@ -4,7 +4,7 @@
     ViewData["Title"] = "List timetable";
 }
 
-<form class="block" asp-antiforgery="true" asp-action="TimetableList" method="get">
+<form class="block" asp-antiforgery="true" method="get">
     <h2>Посмотреть расписание на..</h2>
     <hr id="mine" /><br />
 
@@ -33,15 +33,21 @@
     </div>
 
     <div class="form-floating mb-3">
-        <input type="date" asp-for="BeginDate" class="form-control" id="dateInput2" placeholder="Дата начала недели">
+        <input type="date" asp-for="BeginDate" class="form-control" id="dateInput4" placeholder="Дата начала недели">
         <span asp-validation-for="BeginDate"></span><br />
     </div>
 
     <div class="form-floating mb-3">
-        <input type="date" asp-for="EndDate" class="form-control" id="dateInput3" placeholder="Дата конца недели">
+        <input type="date" asp-for="EndDate" class="form-control" id="dateInput5" placeholder="Дата конца недели">
         <span asp-validation-for="EndDate"></span><br />
     </div>
 
-    <button type="submit" class="btn btn-primary" asp-action="TimetableList" asp-route-DayOfWeek="@Model.DayOfWeek" asp-route-BeginDate="@Model.BeginDate" asp-route-EndDate="@Model.EndDate" asp-route-GroupId="@Model.GroupId">Посмотреть</button>
-    @*asp-route-day="@Model.DayOfWeek" asp-route-begin-date="@Model.BeginDate" asp-route-end-date="@Model.EndDate" asp-route-group-id="@Model.GroupId" *@
+    <button type="submit" class="btn btn-primary" asp-controller="Admin" asp-action="TimetableList" asp-route-day="@Model.DayOfWeek" asp-route-group-id="@Model.GroupId" asp-route-begin-date="@Model.BeginDate" asp-route-end-date="@Model.EndDate">Посмотреть</button>
 </form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Date2.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+}

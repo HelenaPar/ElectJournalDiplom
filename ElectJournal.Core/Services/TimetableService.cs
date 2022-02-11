@@ -11,32 +11,44 @@ namespace ElectJournal.Core.Services
 {
     public class TimetableService : ITimetableService
     {
-        private readonly IRepository<Timetable> timetableRepository;
+        private readonly IRepository<Timetable> TimetableRepository;
+        private readonly ITimeService TimeService;
 
-        public TimetableService(IRepository<Timetable> timetableRepository)
+        public TimetableService(IRepository<Timetable> timetableRepository, ITimeService timeService)
         {
-            this.timetableRepository = timetableRepository;
+            this.TimetableRepository = timetableRepository;
+            this.TimeService = timeService;
         }
-        public int? Add(Timetable timetable)
+        public int Add(Timetable timetable)
         {
-            timetableRepository.Add(timetable);
+            TimetableRepository.Add(timetable);
             return timetable.Id;
         }
 
         public void Delete(int id)
         {
-            timetableRepository.Delete(id);
+            TimetableRepository.Delete(id);
         }
 
         public Timetable Get(int id)
         {
-            var item = timetableRepository.Get(id);
+            var item = TimetableRepository.Get(id);
             return item;
         }
 
-        public IEnumerable<Timetable> Search(DayOfWeek day, int GroupId, DateTime begin, DateTime end)
+        public IEnumerable<Timetable> Search(DayOfWeek day, int groupId, DateTime begin, DateTime end)
         {
-            return timetableRepository.List(new TimetableFilterSpecification(begin, end, day, GroupId));
+            return TimetableRepository.List(new TimetableSpecification(begin, end, day, groupId));
+        }
+
+        public IList<Timetable> TeachTimetable(int userId)
+        {
+            return TimetableRepository.List(new TimetableForTeachSpecification(TimeService.BeginDate(), TimeService.EndDate(), userId));
+        }
+
+        public IList<Timetable> StudTimetable(int groupId)
+        {
+            return TimetableRepository.List(new TimetableForStudSpecification(TimeService.BeginDate(), TimeService.EndDate(), groupId));
         }
     }
 }

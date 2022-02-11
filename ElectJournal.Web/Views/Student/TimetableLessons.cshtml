@@ -1,0 +1,200 @@
+﻿@model Dictionary<DayOfWeek, List<LessonsViewModel>>
+
+@{
+    ViewData["Title"] = "Timetable";
+}
+
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <th>
+                Понедельник
+            </th>
+            <th>
+                Вторник
+            </th>
+            <th>
+                Среда
+            </th>
+            <th>
+                Четверг
+            </th>
+            <th>
+                Пятница
+            </th>
+            <th>
+                Суббота
+            </th>
+        </tr>
+
+        <tr>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Monday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Monday])
+                    {
+                        <span>
+                            @lessons.SubjectName @lessons.StartTime
+                            (Тема: @{if (lessons.Theme != null)
+                                { <span>@lessons.Theme</span>;
+                            }
+                            else
+                            {<span>-</span> } },
+                            ДЗ: @{if (lessons.Homework != null)
+                                { <span>@lessons.Homework</span>;
+                            }
+                            else
+                            {<span>-</span> } })
+                        </span>
+                        <br /><hr /><br />
+                    }
+                }
+                else
+                {
+                    <span> - </span>
+                }
+
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Tuesday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Tuesday])
+                    {
+                        <span>
+                            @lessons.SubjectName @lessons.StartTime
+                            (Тема: @{if (lessons.Theme != null)
+                                { <span>@lessons.Theme</span>;
+                            }
+                            else
+                            {<span>-</span> } },
+                            ДЗ: @{if (lessons.Homework != null)
+                                { <span>@lessons.Homework</span>;
+                            }
+                            else
+                            {<span>-</span> } })
+                        </span>
+                        <br /><hr /><br />
+                    }
+                }
+                else
+                {
+                    <span> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Wednesday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Wednesday])
+                    {
+                        <span>
+                            @lessons.SubjectName @lessons.StartTime
+                            (Тема: @{if (lessons.Theme != null)
+                                { <span>@lessons.Theme</span>;
+                            }
+                            else
+                            {<span>-</span> } },
+                            ДЗ: @{if (lessons.Homework != null)
+                                { <span>@lessons.Homework</span>;
+                            }
+                            else
+                            {<span>-</span> } })
+                        </span>
+                        <br /><hr /><br />
+                    }
+                }
+                else
+                {
+                    <span> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Thursday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Thursday])
+                    {
+                <span>
+                    @lessons.SubjectName @lessons.StartTime
+                    (Тема: @{if (lessons.Theme != null)
+                        { <span>@lessons.Theme</span>;
+                    }
+                    else
+                    {<span>-</span> } },
+                    ДЗ: @{if (lessons.Homework != null)
+                        { <span>@lessons.Homework</span>;
+                    }
+                    else
+                    {<span>-</span> } })
+                </span>
+                        <br /><hr /><br />
+                    }
+                }
+                else
+                {
+                    <span> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Friday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Friday])
+                    {
+                <span>
+                    @lessons.SubjectName @lessons.StartTime
+                    (Тема: @{if (lessons.Theme != null)
+                        { <span>@lessons.Theme</span>;
+                    }
+                    else
+                    {<span>-</span> } },
+                    ДЗ: @{if (lessons.Homework != null)
+                        { <span>@lessons.Homework</span>;
+                    }
+                    else
+                    {<span>-</span> } })
+                </span>
+                        <br /><hr /><br />
+                    }
+                }
+                else
+                {
+                    <span> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Saturday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Saturday])
+                    {
+                <span>
+                    @lessons.SubjectName @lessons.StartTime
+                    (Тема: @{if (lessons.Theme != null)
+                        { <span>@lessons.Theme</span>;
+                    }
+                    else
+                    {<span>-</span> } },
+                    ДЗ: @{if (lessons.Homework != null)
+                        { <span>@lessons.Homework</span>;
+                    }
+                    else
+                    {<span>-</span> } })
+                </span>
+                        <br /><hr /><br />
+                    }
+                }
+                else
+                {
+                    <span> - </span>
+                }
+            </td>
+        </tr>
+        }
+    </table>
+}
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Date2.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/Timetable.css" />
+}

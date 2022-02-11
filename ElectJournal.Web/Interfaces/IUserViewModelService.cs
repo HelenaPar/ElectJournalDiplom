@@ -8,9 +8,8 @@ namespace ElectJournal.Web.Interfaces
 {
     public interface IUserViewModelService
     {
-        int? Add(UserViewModel userViewModel);
+        int Add(UserViewModel userViewModel);
         UserViewModel GetById(int id);
-        object Get();
-        //bool CheckLogin(UserViewModel userViewModel);
+        UserViewModel Get(UserViewModel baseModel = null);
     }
 }

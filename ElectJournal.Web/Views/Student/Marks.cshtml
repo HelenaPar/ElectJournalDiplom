@@ -8,7 +8,7 @@
 {
     <table class="table">
         <tr>
-            <th>
+            <th style="display:none;">
                 @Html.DisplayNameFor(Model => Model.Id)
             </th>
             <th>
@@ -20,11 +20,14 @@
             <th>
                 @Html.DisplayNameFor(Model => Model.LessonDate)
             </th>
+            @*<th>
+                <button type="submit" asp-action="MarksFilter" asp-route-userId="@User.FindFirst(m => m.Type == ClaimTypes.NameIdentifier).Value">Отфильтровать</button>
+            </th>*@
         </tr>
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td style="display:none;">
                     @Html.DisplayFor(model => item.Id)
                 </td>
                 <td>
@@ -36,6 +39,9 @@
                 <td>
                     @Html.DisplayFor(model => item.LessonDate)
                 </td>
+                @*<td>
+
+                </td>*@
             </tr>
         }
     </table>

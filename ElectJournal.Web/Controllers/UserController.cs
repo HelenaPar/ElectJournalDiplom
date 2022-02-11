@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -29,14 +30,19 @@ namespace ElectJournal.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(int id)
+        public IActionResult SuccessfulReg(int id)
         {
             var user = userViewModelService.GetById(id);
             if (user == null)
             {
-                return NotFound();
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier, ErrorMessage = "User not found!" });
             }
             return View(user);
+        }
+
+        public IActionResult SuccessfulReg()
+        {
+            return RedirectToAction(nameof(SignIn));
         }
 
         [HttpGet]
@@ -50,15 +56,20 @@ namespace ElectJournal.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Registration(UserViewModel user)
         {
-            if (!ModelState.IsValid)
-            {
-                return View();
+            var existingUser = userService.Get(user.Login);
+            if (existingUser != null)
+            {           
+                ModelState.AddModelError(nameof(user.Login), "This login already exists!");
             }
 
-            //var logins = userViewModelService.CheckLogin();
-            //for (int i = 0; i < logins.) ;
+            if (!ModelState.IsValid)
+            {
+                user = userViewModelService.Get(user);
+                return View(user);
+            }
+
             var id = userViewModelService.Add(user);
-            return RedirectToAction(nameof(Add), new { id });
+            return RedirectToAction(nameof(SuccessfulReg), new { id });
         }
 
         [HttpGet]
@@ -84,6 +95,7 @@ namespace ElectJournal.Web.Controllers
             }
 
             var claims = new List<Claim>();
+            
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             claims.Add(new Claim(ClaimTypes.Name, user.Name));
             claims.Add(new Claim(ClaimTypes.Surname, user.LastName));

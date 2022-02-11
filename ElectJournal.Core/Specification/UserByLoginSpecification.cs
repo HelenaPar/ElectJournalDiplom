@@ -11,12 +11,15 @@ namespace ElectJournal.Core.Specification
     public class UserByLoginSpecification : ISpecification<User>
     {
         private string login;
-        public IList<string> Includes =>
-            new List<string> { nameof(User.Role) };
+        
         public UserByLoginSpecification(string login)
         {
             this.login = login;
         }
+
+        public IList<string> Includes =>
+            new List<string> { nameof(User.Role) };
+
         public IQueryable<User> Apply(IQueryable<User> query)
         {
             return query.Where(c => c.Login == login);

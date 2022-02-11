@@ -1,0 +1,57 @@
+﻿@using System.Security.Claims
+
+@model MarksViewModel
+
+@{
+    ViewData["Title"] = "Marks";
+}
+
+<form class="block" asp-antiforgery="true" asp-action="TimetableAdd" method="get">
+    <h2><b>Посмотреть оценки..</b></h2>
+    <hr id="mine" /><br />
+
+    <input type="hidden" asp-for="TeacherId" value="@User.FindFirst(m => m.Type == ClaimTypes.NameIdentifier).Value" />
+
+    <div class="input-group mb-3" id="selectgr">
+        <label class="input-group-text" for="inputGroupSelect01">Группы</label>
+        <select asp-for="GroupId" class="form-select" id="inputGroupSelect01">
+            <option value="" selected>Выберите группу...</option>
+            @foreach (var item in Model.GroupsList)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="input-group mb-3" id="selectgr">
+        <label class="input-group-text" for="inputGroupSelect01">Предметы</label>
+        <select asp-for="SubjectId" class="form-select" id="inputGroupSelect01">
+            <option value="" selected>Выберите предмет...</option>
+            @foreach (var item in Model.SubjectsList)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="date" asp-for="LessonDate" class="form-control" id="dateInput" placeholder="Дата урока"><br />
+        <span asp-validation-for="LessonDate"></span>
+    </div>
+
+    <button type="submit" asp-controller="Teacher" asp-action="MarksList" asp-route-subjectId="@Model.SubjectId" asp-route-groupId="@Model.GroupId" asp-route-teacherId="@Model.TeacherId">Посмотреть</button>
+</form>
+<form class="block" method="get" asp-antiforgery="true" asp-action="Lessons">
+    <h2><b>Посмотреть прошедшие уроки и поставить оценки..</b></h2>
+    <hr id="mine" /><br />
+    <input type="hidden" asp-for="TeacherId" value="@User.FindFirst(m => m.Type == ClaimTypes.NameIdentifier).Value" />
+    <button type="submit" asp-controller="Teacher" asp-action="Lessons" asp-route-teacherId="@User.FindFirst(m => m.Type == ClaimTypes.NameIdentifier).Value" asp-route-id="0">Посмотреть уроки</button>
+</form>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/user/group-select.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+}

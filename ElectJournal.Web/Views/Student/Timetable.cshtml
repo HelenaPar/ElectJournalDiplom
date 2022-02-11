@@ -1,0 +1,134 @@
+﻿@model Dictionary<DayOfWeek, List<TimetableViewModel>>
+
+@{
+    ViewData["Title"] = "Timetable";
+}
+
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <th>
+                Понедельник
+            </th>
+            <th>
+                Вторник
+            </th>
+            <th>
+                Среда
+            </th>
+            <th>
+                Четверг
+            </th>
+            <th>
+                Пятница
+            </th>
+            <th>
+                Суббота
+            </th>
+            <th>
+                <button type="submit" asp-controller="Student" asp-action="TimetableLessons" asp-route-groupId="@User.FindFirst(m => m.Type == ClaimTypes.Version).Value">Расписание(корректироки, информация об уроках)</button>
+            </th>
+        </tr>
+
+        <tr>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Monday))
+                 {
+                    foreach (var lessons in Model[DayOfWeek.Monday])
+                    {
+                        <a asp-action="TimetableInfo" asp-route-id="@lessons.Id">@lessons.SubjectName @lessons.StartTime</a>
+                        <br /><hr id="mine" /><br />
+                    }
+                 }
+                else
+                {
+                    <span> - </span>
+                }
+
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Tuesday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Tuesday])
+                    {
+                        <a asp-action="TimetableInfo" asp-route-id="@lessons.Id">@lessons.SubjectName @lessons.StartTime</a>
+                        <br /><hr id="mine" /><br />
+                    }
+                }
+                else
+                {
+                    <span> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Wednesday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Wednesday])
+                    {
+                        <a asp-action="TimetableInfo" asp-route-id="@lessons.Id">@lessons.SubjectName @lessons.StartTime</a>
+                        <br /><hr id="mine" /><br />
+                    }
+                }
+                else
+                {
+                    <span> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Thursday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Thursday])
+                    {
+                        <a asp-action="TimetableInfo" asp-route-id="@lessons.Id">@lessons.SubjectName @lessons.StartTime</a>
+                        <br /><hr /><br />
+                    }
+                }
+                else
+                {
+                    <span> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Friday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Friday])
+                    {
+                        <a asp-action="TimetableInfo" asp-route-id="@lessons.Id">@lessons.SubjectName @lessons.StartTime</a>
+                        <br /><hr /><br />
+                    }
+                }
+                else
+                {
+                    <span> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Saturday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Saturday])
+                    {
+                        <a asp-action="TimetableInfo" asp-route-id="@lessons.Id">@lessons.SubjectName @lessons.StartTime</a>
+                        <br /><hr /><br />
+                    }
+                }
+                else
+                {
+                    <span> - </span>
+                }
+            </td>
+            <td>
+
+            </td>
+        </tr>
+        }
+    </table>
+}
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Date2.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/Timetable.css" />
+}

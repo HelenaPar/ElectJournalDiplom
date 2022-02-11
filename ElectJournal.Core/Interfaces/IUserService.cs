@@ -9,8 +9,9 @@ namespace ElectJournal.Core.Interfaces
 {
     public interface IUserService
     {
-        int? Add(User user);
+        int Add(User user);
         User Get(int id);
         User Get(string login);
+        void Delete(int id);
     }
 }

@@ -8,10 +8,13 @@ namespace ElectJournal.Web.Interfaces
 {
     public interface ITimetableViewModelService
     {
-        int? Add(TimetableViewModel timetableViewModel);
-        object Get();
+        int Add(TimetableViewModel timetableViewModel);
+        TimetableViewModel Get();
+        TimetableViewModel Get(int id);
         void Delete(int id);
-        IEnumerable<TimetableViewModel> Search(DayOfWeek day, int GroupId, DateTime begin, DateTime end);
+        IEnumerable<TimetableViewModel> Search(DayOfWeek dayOfWeek, int groupId, DateTime beginDate, DateTime endDate);
+        Dictionary<DayOfWeek, List<TimetableViewModel>> TeachTimetable(int userId);
+        Dictionary<DayOfWeek, List<TimetableViewModel>> StudTimetable(int groupId);
         void Update(TimetableViewModel timetableViewModel);
     }
 }

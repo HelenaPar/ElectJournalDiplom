@@ -28,7 +28,7 @@ namespace ElectJournal.Web.Services
             this.userRepository = userRepository;
         }
 
-        public int? Add(TimetableViewModel timetableViewModel)
+        public int Add(TimetableViewModel timetableViewModel)
         {
             return timetableService.Add(ConvertToModel(timetableViewModel));
         }
@@ -38,7 +38,7 @@ namespace ElectJournal.Web.Services
             timetableRepository.Delete(id);
         }
 
-        public object Get()
+        public TimetableViewModel Get()
         {
             var viewModel = new TimetableViewModel();
             viewModel.GroupsList = groupRepository.List().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() });
@@ -48,9 +48,67 @@ namespace ElectJournal.Web.Services
             return viewModel;
         }
 
-        public IEnumerable<TimetableViewModel> Search(DayOfWeek day, int GroupId, DateTime begin, DateTime end)
+        public TimetableViewModel Get(int id)
         {
-            return timetableService.Search(day, GroupId, begin, end).Select(ConvertToViewModelV2);
+            var viewModel = new TimetableViewModel();
+            viewModel.GroupsList = groupRepository.List().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() });
+            viewModel.SubjectList = subjectRepository.List().Select(c => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() });
+            viewModel.TeachersList = userRepository.List().Select(c => new SelectListItem() { Text = $"{c.LastName} {c.Name} {c.MiddleName}", Value = c.Id.ToString() });
+            var item = timetableService.Get(id);
+            viewModel.Id = item.Id;
+            viewModel.BeginDate = item.BeginDate;
+            viewModel.DayOfWeek = item.DayOfWeek;
+            viewModel.EndDate = item.EndDate;
+            viewModel.GroupId = item.GroupId;
+            viewModel.StartTime = item.StartTime;
+            viewModel.SubjectId = item.SubjectId;
+            viewModel.UserId = item.UserId;
+            return viewModel;
+        }
+
+        public Dictionary<DayOfWeek, List<TimetableViewModel>> TeachTimetable(int userId)
+        {
+            var orderedTimetables = timetableService.TeachTimetable(userId).Select(ConvertToViewModel);
+            Dictionary<DayOfWeek, List<TimetableViewModel>> timetableDictionary =
+                new Dictionary<DayOfWeek, List<TimetableViewModel>>();
+
+            foreach (var timetable in orderedTimetables)
+            {
+                if (timetableDictionary.ContainsKey(timetable.DayOfWeek))
+                {
+                    timetableDictionary[timetable.DayOfWeek].Add(timetable);
+                }
+                else
+                {
+                    timetableDictionary.Add(timetable.DayOfWeek, new List<TimetableViewModel> { timetable });
+                }
+            }
+            return timetableDictionary;
+        }
+
+        public Dictionary<DayOfWeek, List<TimetableViewModel>> StudTimetable(int groupId)
+        {
+            var orderedTimetables = timetableService.StudTimetable(groupId).Select(ConvertToViewModel);
+            Dictionary<DayOfWeek, List<TimetableViewModel>> timetableDictionary =
+                new Dictionary<DayOfWeek, List<TimetableViewModel>>();
+
+            foreach (var timetable in orderedTimetables)
+            {
+                if (timetableDictionary.ContainsKey(timetable.DayOfWeek))
+                {
+                    timetableDictionary[timetable.DayOfWeek].Add(timetable);
+                }
+                else
+                {
+                    timetableDictionary.Add(timetable.DayOfWeek, new List<TimetableViewModel> { timetable });
+                }
+            }
+            return timetableDictionary;
+        }
+
+        public IEnumerable<TimetableViewModel> Search(DayOfWeek dayOfWeek, int groupId, DateTime beginDate, DateTime endDate)
+        {
+            return timetableService.Search(dayOfWeek, groupId, beginDate, endDate).Select(ConvertToTimetableViewModel);
         }
 
         public void Update(TimetableViewModel timetableViewModel)
@@ -62,12 +120,12 @@ namespace ElectJournal.Web.Services
         {
             return new Timetable
             {
-                Id = timetableViewModel.Id,
+                Id = timetableViewModel.Id.HasValue ? timetableViewModel.Id.Value : 0,
                 GroupId = timetableViewModel.GroupId,
                 UserId = timetableViewModel.UserId,
                 DayOfWeek = timetableViewModel.DayOfWeek,
                 BeginDate = timetableViewModel.BeginDate,
-                EndDate= timetableViewModel.EndDate,
+                EndDate = timetableViewModel.EndDate,
                 StartTime = timetableViewModel.StartTime,
                 SubjectId = timetableViewModel.SubjectId
             };
@@ -84,11 +142,13 @@ namespace ElectJournal.Web.Services
                 BeginDate = timetable.BeginDate,
                 EndDate = timetable.EndDate,
                 StartTime = timetable.StartTime,
-                SubjectId = timetable.SubjectId
+                SubjectId = timetable.SubjectId,
+                SubjectName = timetable.Subject.Name,
+                GroupName = timetable.Group.Name
             };
         }
 
-        private TimetableViewModel ConvertToViewModelV2(Timetable timetable)
+        private TimetableViewModel ConvertToTimetableViewModel(Timetable timetable)
         {
             return new TimetableViewModel
             {

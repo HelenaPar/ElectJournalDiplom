@@ -16,11 +16,8 @@
                   <div id="header">
                       <div class="logo">
                             <a asp-area="" asp-controller="Home" asp-action="Index">Электронный журнал</a>
-                        </div>
+                      </div>
                         <nav>
-                            @*<form class="search" action="search.php">
-                        <input name="q" placeholder="Search..." type="search">
-                        </form>*@
                             <ul>
                                 <li>
                                     <a asp-area="" asp-controller="Admin" asp-action="Users" class="menu">Пользователи</a>
@@ -33,7 +30,6 @@
                                 </li>
                                 <li>
                                     <a asp-area="" asp-controller="Admin" asp-action="Subjects" class="menu">Учебные предметы</a>
-
                                 </li>
                             </ul>
                             <partial name="_LoginPartial" />
@@ -49,10 +45,10 @@
                         <nav>
                             <ul>
                                 <li>
-                                    <a asp-area="" asp-controller="Admin" asp-action="Timetable" class="menu">Расписание</a>
+                                    <a asp-area="" asp-controller="Student" asp-action="Timetable" asp-route-groupId="@User.FindFirst(m => m.Type == ClaimTypes.Version).Value" class="menu">Расписание</a>
                                 </li>
                                 <li>
-                                    <a asp-area="" asp-controller="Student" asp-action="Marks" asp-route-GroupId="@User.FindFirst(m => m.Type == ClaimTypes.Version).Value" class="menu">Оценки</a>
+                                    <a asp-area="" asp-controller="Student" asp-action="Marks" asp-route-UserId="@User.FindFirst(m => m.Type == ClaimTypes.NameIdentifier).Value" class="menu">Оценки</a>
                                 </li>
                             </ul>
                             <partial name="_LoginPartial" />
@@ -68,10 +64,10 @@
                         <nav>
                             <ul>
                                 <li>
-                                    <a asp-area="" asp-controller="Home" asp-action="Index" class="menu">Расписание</a>
+                                    <a asp-area="" asp-controller="Teacher" asp-action="Timetable" asp-route-userId="@User.FindFirst(m => m.Type == ClaimTypes.NameIdentifier).Value"  class="menu">Расписание</a>
                                 </li>
                                 <li>
-                                    <a asp-area="" asp-controller="Teacher" asp-action="StartLesson" class="menu">Начать урок</a>
+                                    <a asp-area="" asp-controller="Teacher" asp-action="LessonStart" asp-route-TeacherId="@User.FindFirst(m => m.Type == ClaimTypes.NameIdentifier).Value" class="menu">Начать урок</a>
                                 </li>
                                 <li>
                                     <a asp-area="" asp-controller="Teacher" asp-action="Marks" class="menu">Оценки</a>
@@ -90,7 +86,7 @@
 
     <footer class="border-top footer">
         <div class="container" style="color:white">
-            &copy; 2021 - ElectJournal.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - 2022 y.: Electronic Journal. 
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

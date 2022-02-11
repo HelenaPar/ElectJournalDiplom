@@ -18,7 +18,7 @@ using ElectJournal.Web.Interfaces;
 using ElectJournal.Infrastrusture.Security;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-
+using ElectJournal.Infrastrusture.Services;
 
 namespace ElectJournal.Web
 {
@@ -33,7 +33,6 @@ namespace ElectJournal.Web
         public IWebHostEnvironment Environment { get; }
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<JournalDbContext>(options => options.UseSqlServer(
@@ -50,11 +49,13 @@ namespace ElectJournal.Web
             services.AddScoped<ILessonsViewModelService, LessonsViewModelService>();
             services.AddScoped<ISubjViewModelService, SubjViewModelService>();
             services.AddScoped<IGroupViewModelService, GroupViewModelService>();
-            services.AddScoped<IUserDeleteService, UserDeleteService>();
             services.AddScoped<IUserDeleteViewModelService, UserDeleteViewModelService>();
             services.AddScoped<ITimetableService, TimetableService>();
             services.AddScoped<ITimetableViewModelService, TimetableViewModelService>();
             services.AddScoped<IMarkViewModelService, MarkViewModelService>();
+
+            //services.AddScoped<ITimeService, TimeService>();
+            services.AddScoped<ITimeService>(provider => new TestTimeService(new DateTime(2022, 1, 28, 12, 30, 30)));
 
 
             services.AddScoped<IPasswordHasher, PasswordHasher>();
@@ -68,7 +69,6 @@ namespace ElectJournal.Web
             services.AddControllersWithViews();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -78,7 +78,6 @@ namespace ElectJournal.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -93,7 +92,7 @@ namespace ElectJournal.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=User}/{action=Registration}");//{controller=Home}/{action=Index}/{id?}"
+                    pattern: "{controller=User}/{action=Registration}");
             });
         }
     }

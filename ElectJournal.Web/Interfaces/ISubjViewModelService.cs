@@ -8,7 +8,7 @@ namespace ElectJournal.Web.Interfaces
 {
     public interface ISubjViewModelService
     {
-        int? Add(SubjectViewModel subjectViewModel);
+        int Add(SubjectViewModel subjectViewModel);
         SubjectViewModel Get(int id);
         void Delete(int id);
         IEnumerable<SubjectViewModel> List();

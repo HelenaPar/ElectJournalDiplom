@@ -9,7 +9,7 @@ namespace ElectJournal.Core.Interfaces
 {
     public interface IGroupService
     {
-        int? Add(Group group);
+        int Add(Group group);
         Group Get(int id);
         void Delete(int id);
     }
