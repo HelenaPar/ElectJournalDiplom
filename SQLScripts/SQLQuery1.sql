@@ -14,16 +14,6 @@ INSERT [dbo].[Groups] ([Id], [Name]) VALUES (5, N'314эвм')
 GO
 SET IDENTITY_INSERT [dbo].[Groups] OFF
 GO
-SET IDENTITY_INSERT [dbo].[Roles] ON 
-GO
-INSERT [dbo].[Roles] ([Id], [Name]) VALUES (1, N'admin')
-GO
-INSERT [dbo].[Roles] ([Id], [Name]) VALUES (2, N'teacher')
-GO
-INSERT [dbo].[Roles] ([Id], [Name]) VALUES (3, N'student')
-GO
-SET IDENTITY_INSERT [dbo].[Roles] OFF
-GO
 SET IDENTITY_INSERT [dbo].[Users] ON 
 GO
 INSERT [dbo].[Users] ([Id], [GroupId], [RoleId], [Login], [Password], [Name], [LastName], [MiddleName], [Salt]) VALUES (1, NULL, 2, N'Mark21', N'7aLGj8p5My2PpLwWtm75IHZKoR0wJB1sQEYKh/XxmVN3kPp7z4s3oCkpYlvvYlzvbv5NrAYfwhKUuf70hz7PJ8Ttu9711yox5Y0ouvFQ5ZBdBLgx3Elh9AyjmN1QKY8U', N'Евгений', N'Никифоров', N'Святославович', N'P85iHaWDtPxq2AWjzZR0yfQwBGxDBJ6O28/HgNULFQNN+jhw/MEObwKBq/KUF5hdTVhVMa0gZ7D5ZelYTtA9b9X6NXVU03fPvSy38q5uYRkjrDK0/gJ1x/ff0fhG+X0v')
