@@ -18,9 +18,9 @@ namespace ElectJournal.Web.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string roleName)
         {
-            return View();
+            return View(roleName);
         }
 
         public IActionResult Privacy()
@@ -29,9 +29,15 @@ namespace ElectJournal.Web.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(string message)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(
+                new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    ErrorMessage = !string.IsNullOrEmpty(message) ? message : "Unknown error!"
+                }
+            );
         }
     }
 }

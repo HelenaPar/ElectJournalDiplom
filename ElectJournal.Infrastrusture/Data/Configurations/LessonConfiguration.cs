@@ -36,7 +36,7 @@ namespace ElectJournal.Infrastrusture.Data.Configurations
                .IsRequired();
 
             builder
-                .HasOne(m => m.Teacher)
+                .HasOne(m => m.User)
                 .WithMany(u => u.Lessons)
                 .HasForeignKey(m => m.TeacherId)
                 .IsRequired()

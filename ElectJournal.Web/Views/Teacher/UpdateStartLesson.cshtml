@@ -1,0 +1,62 @@
+﻿@using System.Security.Claims
+
+@model LessonsViewModel
+
+@{
+    ViewData["Title"] = "Data about this lesson";
+}
+
+<form class="block" asp-antiforgery="true" asp-action="UpdateStartLesson" method="post">
+    <h2><b>Изменить данные начатого урока..</b></h2>
+    <hr id="mine" /><br />
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input type="hidden" asp-for="LessonDate" value="@Model.LessonDate" />
+    <input type="hidden" asp-for="TeacherId" value="@Model.TeacherId" />
+    <input type="text" asp-for="Theme" placeholder="Тема" value="@Model.Theme" /><br />
+    <input type="text" asp-for="Homework" placeholder="Домашняя работа" value="@Model.Homework" /><br />
+    <input type="time" asp-for="StartTime" value="@Model.StartTime" /><br />
+
+    <div class="input-group mb-3" id="selectgr">
+        <label class="input-group-text" for="inputGroupSelect01">Студенты</label>
+        <select asp-for="SubjectId" class="form-select" id="inputGroupSelect01">
+            @foreach (var item in Model.SubjectList)
+             {
+                @if (Model.SubjectId.ToString() == item.Value)
+                {
+                    <option value="@item.Value" selected>@item.Text</option>
+                }
+                else
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+             }
+        </select>
+    </div><br />
+
+    <div class="input-group mb-3" id="selectgr">
+        <label class="input-group-text" for="inputGroupSelect01">Студенты</label>
+        <select asp-for="GroupId" class="form-select" id="inputGroupSelect01">
+            @foreach (var item in Model.GroupsList)
+             {
+                @if (Model.GroupId.ToString() == item.Value)
+                {
+                    <option value="@item.Value" selected>@item.Text</option>
+                }
+                else
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+             }
+        </select>
+    </div><br />
+
+    <button type="submit" class="btn btn-primary">Изменить данные</button>
+</form>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+}
+

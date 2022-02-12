@@ -10,11 +10,12 @@ namespace ElectJournal.Core.Interfaces
         where TEntity : class
     {
         TEntity Get(int id);
-        IList<TEntity> Get(ISpecification<TEntity> specification);
+        TEntity Get(ISpecification<TEntity> specification);
         IList<TEntity> List();
         IList<TEntity> List(ISpecification<TEntity> specification);
         TEntity Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
+        void Delete(int id);
     }
 }

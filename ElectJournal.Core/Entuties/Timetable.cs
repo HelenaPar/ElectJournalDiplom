@@ -14,6 +14,6 @@ namespace ElectJournal.Core.Entuties
         public DayOfWeek DayOfWeek { get; set; }
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
-        public DateTime StartTime { get; set; }
+        public TimeSpan StartTime { get; set; }
     }
 }

@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ElectJournal.Web.Models.MarksViewModel>
+
+@{
+    ViewData["Title"] = "Marks";
+}
+
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <th style="display:none;">
+                @Html.DisplayNameFor(Model => Model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Value)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.SubjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.LessonDate)
+            </th>
+            @*<th>
+                <button type="submit" asp-action="MarksFilter" asp-route-userId="@User.FindFirst(m => m.Type == ClaimTypes.NameIdentifier).Value">Отфильтровать</button>
+            </th>*@
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="display:none;">
+                    @Html.DisplayFor(model => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.SubjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.LessonDate)
+                </td>
+                @*<td>
+
+                </td>*@
+            </tr>
+        }
+    </table>
+}
+
+
+
+
+<style>
+    .table td, .table th {
+        background-color: aliceblue;
+        border-top: 1px solid #000;
+    }
+
+    a.table {
+        color: darkblue;
+    }
+
+    table a {
+        color: darkblue;
+    }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/user/group-select.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+}

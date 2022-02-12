@@ -1,0 +1,26 @@
+﻿@model MarksViewModel
+
+@{
+    ViewData["Title"] = "Marks";
+}
+
+<form class="block" asp-antiforgery="true" asp-action="ListOfSortedMarks" method="get">
+    <h2>Фильтрация</h2>
+    <hr />
+    <input type="hidden" asp-for=StudentId value="@Model.StudentId" />
+    <label>От: <input type="date" asp-for="BeginDate" /></label>
+    <label>До: <input type="date" asp-for="EndDate" /></label>
+
+    <div class="input-group mb-3" id="selectgr">
+        <label class="input-group-text" for="inputGroupSelect01">Предметы</label>
+        <select asp-for="SubjectId" class="form-select" id="inputGroupSelect01">
+            <option value="" selected>Выберите предмет...</option>
+            @foreach (var item in Model.SubjectsList)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit">Отфильтровать</button>
+</form>

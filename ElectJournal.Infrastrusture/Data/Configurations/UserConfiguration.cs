@@ -18,6 +18,12 @@ namespace ElectJournal.Infrastrusture.Data.Configurations
                 .IsRequired();
 
             builder
+                .Property(p => p.Salt)
+                .HasMaxLength(128)
+                .IsFixedLength()
+                .IsRequired();
+
+            builder
                .Property(p => p.Password)
                .HasMaxLength(264)
                .IsRequired();

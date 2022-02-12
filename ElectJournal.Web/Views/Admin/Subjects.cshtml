@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ElectJournal.Web.Models.SubjectViewModel>
+
+@{
+    ViewData["Title"] = "Subject";
+}
+
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Name)
+            </th>
+            <th>
+                Действия
+            </th>
+            <th>
+
+            </th>
+            <th>
+                <a asp-action="SubjectsAdd">Добавить</a>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Name)
+                </td>
+                <td>
+                    <button type="submit" asp-route-id="@item.Id" action="Subject">Удалить</button>
+                </td>
+                <td>
+                    @Html.ActionLink("Изменить", "SubjectsUpdate", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Date2.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+}

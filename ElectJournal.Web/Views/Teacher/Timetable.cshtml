@@ -1,0 +1,177 @@
+﻿@model Dictionary<DayOfWeek, List<TimetableViewModel>>
+
+@{
+    ViewData["Title"] = "Timetable";
+}
+
+@using (Html.BeginForm())
+{
+    TestTimeService time = new TestTimeService(new DateTime(2022, 1, 28, 12, 30, 30));
+    <table class="table">
+        <tr>
+            <th>
+                Понедельник
+            </th>
+            <th>
+                Вторник
+            </th>
+            <th>
+                Среда
+            </th>
+            <th>
+                Четверг
+            </th>
+            <th>
+                Пятница
+            </th>
+            <th>
+                Суббота
+            </th>
+        </tr>
+
+        <tr>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Monday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Monday])
+                    {
+                        if (lessons.DayOfWeek == time.GetNow().DayOfWeek)
+                        {
+                            <a asp-action="LessonStartFromTimetable" asp-route-id="@lessons.Id">@lessons.SubjectName @lessons.GroupName @lessons.StartTime</a>
+                            <br /><hr /><br />
+                        }
+                        else
+                        {
+                            <span>@lessons.SubjectName @lessons.GroupName @lessons.StartTime</span>
+                            <br /><hr id="mine" /><br />
+                        }
+                    }
+                }
+                else
+                {
+                    <span style="align-content:center;"> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Tuesday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Tuesday])
+                    {
+                        if (lessons.DayOfWeek == time.GetNow().DayOfWeek)
+                        {
+                            <a asp-action="LessonStartFromTimetable" asp-route-id="@lessons.Id">@lessons.SubjectName @lessons.GroupName @lessons.StartTime</a>
+                            <br /><hr /><br />
+                        }
+                        else
+                        {
+                            <span>@lessons.SubjectName @lessons.GroupName @lessons.StartTime</span>
+                            <br /><hr id="mine" /><br />
+                        }
+                    }
+                }
+                else
+                {
+                    <span style="align-content:center;"> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Wednesday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Wednesday])
+                    {
+                        
+                        if (lessons.DayOfWeek == time.GetNow().DayOfWeek)
+                        {
+                            <a asp-action="LessonStartFromTimetable" asp-route-id="@lessons.Id">@lessons.SubjectName @lessons.GroupName @lessons.StartTime</a>
+                            <br /><hr /><br />
+                        }
+                        else
+                        {
+                            <span>@lessons.SubjectName @lessons.GroupName @lessons.StartTime</span>
+                            <br /><hr id="mine" /><br />
+                        }
+                    }
+                }
+                else
+                {
+                    <span style="align-content:center;"> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Thursday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Thursday])
+                    {
+                        if (lessons.DayOfWeek == time.GetNow().DayOfWeek)
+                        {
+                            <a asp-action="LessonStartFromTimetable" asp-route-id="@lessons.Id">@lessons.SubjectName @lessons.GroupName @lessons.StartTime</a>
+                            <br /><hr /><br />
+                        }
+                        else
+                        {
+                            <span>@lessons.SubjectName @lessons.GroupName @lessons.StartTime</span>
+                            <br /><hr /><br />
+                        }
+                    }
+                }
+                else
+                {
+                    <span style="align-content:center;"> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Friday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Friday])
+                    {
+                        if (lessons.DayOfWeek == time.GetNow().DayOfWeek)
+                        {
+                            <a asp-action="LessonStartFromTimetable" asp-route-id="@lessons.Id">@lessons.SubjectName @lessons.GroupName @lessons.StartTime</a>
+                            <br /><hr /><br />
+                        }
+                        else
+                        {
+                            <span>@lessons.SubjectName @lessons.GroupName @lessons.StartTime</span>
+                            <br /><hr /><br />
+                        }
+                    }
+                }
+                else
+                {
+                    <span style="align-content:center;"> - </span>
+                }
+            </td>
+            <td>
+                @if (Model.ContainsKey(DayOfWeek.Saturday))
+                {
+                    foreach (var lessons in Model[DayOfWeek.Saturday])
+                    {
+                        if (lessons.DayOfWeek == time.GetNow().DayOfWeek)
+                        {
+                            <a asp-action="LessonStartFromTimetable" asp-route-id="@lessons.Id">@lessons.SubjectName @lessons.GroupName @lessons.StartTime</a>
+                            <br /><hr /><br />
+                        }
+                        else
+                        {
+                            <span>@lessons.SubjectName @lessons.GroupName @lessons.StartTime</span>
+                            <br /><hr /><br />
+                        }
+                    }
+                }
+                else
+                {
+                    <span style="align-content:center;"> - </span>
+                }
+            </td>
+        </tr>
+        }
+    </table>
+ }
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Date2.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/Timetable.css" />
+}

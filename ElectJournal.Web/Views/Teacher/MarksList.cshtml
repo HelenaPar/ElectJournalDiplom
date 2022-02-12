@@ -1,0 +1,71 @@
+﻿@using System.Security.Claims
+
+@model IEnumerable<ElectJournal.Web.Models.MarksViewModel>
+
+@{
+    ViewData["Title"] = "Marks";
+}
+
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <th style="display:none;">
+                @Html.DisplayNameFor(Model => Model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.MiddleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Value)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.LessonDate)
+            </th>
+            <th>
+                Действия
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="display:none;">
+                    @Html.DisplayFor(model => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.MiddleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.LessonDate)
+                </td>
+                <td>
+                    <button type="submit" action="MarksList" asp-route-id="@item.Id">Удалить</button>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/user/group-select.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/table.css" />
+}

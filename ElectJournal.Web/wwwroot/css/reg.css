@@ -1,0 +1,53 @@
+﻿span {
+    color: crimson;
+}
+
+form.block a {
+    color: steelblue;
+}
+
+form, h1 {
+    text-align: center;
+}
+
+.name {
+    margin-left: -32px;
+}
+
+.form-control {
+    width: 25%;
+    display: inline-block;
+}
+
+div#selectgr {
+    align-content: center;
+    display: inline-block;
+}
+
+select {
+    display: initial;
+    width: 200px;
+}
+
+label#inputGroupSelect01 {
+    width: 200px;
+}
+
+.input-group-text {
+    display: table;
+    width: 200px;
+    margin: auto;
+}
+
+.form-control {
+    width: 200px;
+}
+
+hr {
+    border: none;
+    background-color: steelblue;
+    color: steelblue;
+    height: 2.5px;
+    width: 100%;
+    margin: auto;
+}

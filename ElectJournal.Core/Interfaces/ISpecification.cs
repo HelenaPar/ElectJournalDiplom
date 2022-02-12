@@ -10,5 +10,6 @@ namespace ElectJournal.Core.Interfaces
          where TEntity : class
     {
         IQueryable<TEntity> Apply(IQueryable<TEntity> query);
+        IList<string> Includes { get; }
     }
 }

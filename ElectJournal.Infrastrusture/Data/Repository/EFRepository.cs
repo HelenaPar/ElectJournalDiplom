@@ -23,24 +23,38 @@ namespace ElectJournal.Infrastrusture.Data.Repository
             dbContext.SaveChanges();
             dbContext.Entry(entity).State = EntityState.Detached;
             return entity;
+
         }
 
         public void Delete(TEntity entity)
         {
-            dbContext.Set<TEntity>().Remove(entity);
+            dbContext.Entry(entity).State = EntityState.Deleted;
             dbContext.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            var entity = dbContext.Set<TEntity>().Find(id);
+            if (entity != null)
+            {
+                dbContext.Remove(entity);
+                dbContext.SaveChanges();
+            }
         }
 
         public TEntity Get(int id)
         {
             var entity = dbContext.Set<TEntity>().Find(id);
-            dbContext.Entry(entity).State = EntityState.Detached;
+            if (entity != null)
+            {
+                dbContext.Entry(entity).State = EntityState.Detached;
+            }
             return entity;
         }
 
-        public IList<TEntity> Get(ISpecification<TEntity> specification)
+        public TEntity Get(ISpecification<TEntity> specification)
         {
-            return specification.Apply(dbContext.Set<TEntity>()).AsNoTracking().ToList();
+            return ApplySpecification(dbContext.Set<TEntity>(), specification).FirstOrDefault();
         }
 
         public IList<TEntity> List()
@@ -50,14 +64,25 @@ namespace ElectJournal.Infrastrusture.Data.Repository
 
         public IList<TEntity> List(ISpecification<TEntity> specification)
         {
-            return specification.Apply(dbContext.Set<TEntity>()).AsNoTracking().ToList();
+            return ApplySpecification(dbContext.Set<TEntity>(), specification).ToList();
         }
 
         public void Update(TEntity entity)
         {
             dbContext.Entry(entity).State = EntityState.Modified;
-            //dbContext.Set<TEntity>().Update(entity);
             dbContext.SaveChanges();
+        }
+        
+        private IQueryable<TEntity> ApplySpecification(IQueryable<TEntity> source, ISpecification<TEntity> specification)
+        {
+            var result = specification.Apply(source);
+
+            foreach (var include in specification.Includes)
+            {
+                result = result.Include(include);
+            }
+
+            return result.AsNoTracking();
         }
     }
 }

@@ -1,0 +1,26 @@
+﻿@model SubjectViewModel
+
+@{
+    ViewData["Title"] = "Update subject";
+}
+
+<form class="block" asp-antiforgery="true" method="post" asp-action="SubjectsUpdate">
+    <h2><b>Изменение предмета</b></h2>
+    <hr id="mine" /><br />
+
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+
+    <div class="form-floating mb-3">
+        <input asp-for="Name" class="form-control" id="floatingInput" placeholder="@Model.Name"><br />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Изменить</button>
+</form>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/user/group-select.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+}

@@ -1,0 +1,62 @@
+﻿@model LessonsViewModel
+
+@{
+    ViewData["Title"] = "Start our lesson";
+}
+
+<form class="block" asp-antiforgery="true" asp-controller="Teacher" asp-action="LessonStart" method="post">
+    <h2><b>Начать урок..</b></h2>
+    <hr id="mine" /><br />
+    @if (Model.IsTimetableBased)
+    {
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="LessonDate" value="@{new TestTimeService(new DateTime(2022, 1, 28, 12, 30, 30));} " /> //DateTime.Today
+        <input type="hidden" asp-for="TeacherId" value="@User.FindFirst(m => m.Type == ClaimTypes.NameIdentifier).Value" />
+        <input type="hidden" asp-for="Theme" value="" />
+        <input type="hidden" asp-for="Homework" value="" />
+        <input type="hidden" asp-for="StartTime" value="@Model.StartTime" />
+        <input type="hidden" asp-for="SubjectId" value="@Model.SubjectId" />
+        <input type="hidden" asp-for="GroupId" value="@Model.GroupId" />
+        <label>Группа: @Model.GroupName</label>
+        <label>Предмет: @Model.SubjectName</label>
+    }
+    else
+    {
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="LessonDate" value="@{new TestTimeService(new DateTime(2022, 1, 28, 12, 30, 30));} " />
+        <input type="hidden" asp-for="TeacherId" value="@User.FindFirst(m => m.Type == ClaimTypes.NameIdentifier).Value" />
+        <input type="hidden" asp-for="Theme" value="" />
+        <input type="hidden" asp-for="Homework" value="" />
+        <input type="time" asp-for="StartTime" class="dateInput1" />
+
+        <div class="input-group mb-3" id="selectgr">
+            <label class="input-group-text" for="inputGroupSelect01">Студенты</label>
+            <select asp-for="SubjectId" class="form-select" id="inputGroupSelect01">
+                <option value="" selected>Выберите предмет...</option>
+                @foreach (var item in Model.SubjectList)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>
+
+        <div class="input-group mb-3" id="selectgr">
+            <label class="input-group-text" for="inputGroupSelect01">Студенты</label>
+            <select asp-for="GroupId" class="form-select" id="inputGroupSelect01">
+                <option value="" selected>Выберите студента...</option>
+                @foreach (var item in Model.GroupsList)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Создать урок</button>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Time.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/reg.css" />
+}

@@ -1,0 +1,11 @@
+﻿@model UserViewModel;
+@{
+    ViewData["Title"] = "Add";
+}
+<form asp-controller="User" asp-action="SuccessfulReg" style="position:center">
+    <br /><br /><br />
+    <div>
+        <p>@Model.LastName @Model.Name @Model.MiddleName вы успешно зарегистрировались под логином: @Model.Login!</p>
+        <button type="submit"  class="btn btn-primary">Войти в аккаунт</button>
+    </div>
+</form>
